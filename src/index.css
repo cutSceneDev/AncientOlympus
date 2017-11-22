@@ -1,0 +1,15 @@
+html {
+  min-height: 100%;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  min-height: 100%;
+  box-sizing: border-box;
+
+  font-family: 'Indie Flower', cursive;
+  color: #D7CCC8;
+  background-image: url('./assets/main_background.jpg');
+  background-size: cover;
+}
