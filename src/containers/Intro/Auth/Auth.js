@@ -8,39 +8,33 @@ import Modal from '../../../components/UI/Modal/Modal'
 
 class Auth extends Component {
   state = {
-    regActive: false
+    regIsActive: false
   }
 
-  regActivate = () => {
-    this.setState({regActive: true})
+  handlerRegOpenClick = () => {
+    this.setState({regIsActive: true})
   }
 
-  regDeActivate = () => {
-    this.setState({regActive: false})
+  handleRegCloseClick = () => {
+    this.setState({regIsActive: false})
   }
 
 
   render() {
-    const login = (
-      <Modal active={this.props.active} click={this.props.click}>
-        <Login
-          regActivate={this.regActivate}
-          userLoged={this.props.userLoged}
-        />
-      </Modal>
-    )
-
-    const register = (
-      <Modal active={this.props.active} click={this.props.click}>
-        <Register 
-          regDeActivate={this.regDeActivate}
-        />
-      </Modal>
-    )
-
     return (
       <div className={styles.Auth}>
-        {this.state.regActive ? register : login}
+        <Modal active={this.props.authIsActive} click={this.props.authClose}>
+          {this.state.regIsActive ? (
+            <Register 
+              handleRegCloseClick={this.handleRegCloseClick}
+            />
+          ) : (
+            <Login
+              handlerRegOpenClick={this.handlerRegOpenClick}
+              logInUser={this.props.logInUser}
+            />
+          )}
+        </Modal>
       </div>
     )
   }

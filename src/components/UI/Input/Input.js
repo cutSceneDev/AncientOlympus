@@ -1,5 +1,5 @@
 import React from 'react'
-// import './Input.css'
+import styles from './Input.css'
 
 const input = (props) => {
   let input = null
@@ -7,25 +7,28 @@ const input = (props) => {
   switch (props.tagType) {
     case 'input':
       input = (
-        <input 
+        <input
+          className={styles.Input}
+          id={props.id}
           placeholder={props.placeholder}
           onChange={props.change}
           value={props.value}
+          type={props.type}
         />
       )
       break;
     
     default:
-      input = (
-        <input 
-          placeholder={props.placeholder}
-          onChange={props.change}
-          value={props.value}
-        />
-      )
+      input = <p>Wrong Input config</p>
   }
 
-  return input
+  return (
+    <div className={styles.InputWrapper}>
+      <label className={styles.Label} htmlFor={props.id}>{props.label}</label>
+        {input}
+      <div className={styles.Warning}>{props.warning}</div>
+    </div>
+  )
 }
 
 export default input

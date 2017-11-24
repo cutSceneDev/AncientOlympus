@@ -1,0 +1,25 @@
+.Button {
+  padding: 2px 18px;
+  border: none;
+  font-size: 22px;
+
+  background: #3E2723;
+  border-radius: 10px;
+  color: #D7CCC8;
+  outline: none;
+  text-transform: uppercase;
+  box-shadow: 3px 3px 3px black;
+  text-align: center;
+  font-family: 'Indie Flower', cursive;
+  cursor: pointer;
+}
+
+.Button:hover {
+  background: #5D4037;
+  box-shadow: 2px 2px 2px black;
+}
+
+.Button:active {
+  background: #795548;
+  box-shadow: 1px 1px 1px black;
+}

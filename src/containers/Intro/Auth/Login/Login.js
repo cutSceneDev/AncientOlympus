@@ -3,52 +3,63 @@ import axios from 'axios'
 
 import NoRootElement from '../../../../hoc/NoRootElement'
 import Input from '../../../../components/UI/Input/Input'
+import Button from '../../../../components/UI/Button/Button'
 
 class Login extends Component {
   state = {
     form: {
       login: {
         tagType: 'input',
-        placeholder: 'type your login...',
-        value: ''
+        placeholder: '',
+        value: '',
+        label: 'Login Name:',
+        warning: ''
       },
       password: {
         tagType: 'input',
-        placeholder: 'type your password...',
+        placeholder: '',
         value: '',
-        type: 'password'
+        label: 'Password:',
+        type: 'password',
+        warning: ''
       }
     }
   }
+  
+  changeInputsWarning = (inputKey, warning) => {
+    const newForm = {...this.state.form}
+    const newInput = {...newForm[inputKey]}
 
-  inputChangeHandler = (inputKey, event) => {
+    newInput.warning = warning
+    newForm[inputKey] = newInput
+
+    this.setState({form: newForm})
+  }
+
+  handleInputChange = (inputKey, event) => {
     const newForm = {...this.state.form}
     const newInput = {...newForm[inputKey]}
 
     newInput.value = event.target.value
     newForm[inputKey] = newInput
 
-    this.setState({form: newForm})
+    this.setState({form: newForm}, () => this.changeInputsWarning(inputKey, ''))
   }
 
-  activateLoginWarning = (input, warning) => {
-    console.info(input, warning)
-  }
-
-  invalidInputs = () => {
+  inputsPreValidation = () => {
     let invalid = false;
 
     Object.keys(this.state.form).forEach((input) => {
       if (this.state.form[input].value.length < 1) {
         invalid = true;
-        this.activateLoginWarning(input, 'incorrect length of input')
+        this.changeInputsWarning(input, 'incorrect length of input')
       }
     })
 
     return invalid;
   }
 
-  compareLogin = (data) => {
+  inputsValidation = (data) => {
     const login = this.state.form.login.value
     const password = this.state.form.password.value
     const access = {status: false, name: ''}
@@ -72,13 +83,13 @@ class Login extends Component {
     })
 
     if (!access.status) {
-      this.activateLoginWarning(warning.input, warning.text)
+      this.changeInputsWarning(warning.input, warning.text)
     }
     return access;
   }
 
-  loginHandler = () => {
-    if ( this.invalidInputs() ) return;
+  handleLoginClick = () => {
+    if ( this.inputsPreValidation() ) return;
 
     axios.get('/login.json')
       .then((response) => {
@@ -92,10 +103,10 @@ class Login extends Component {
           return;
         }
 
-        const access = this.compareLogin(response.data)
+        const access = this.inputsValidation(response.data)
 
         if (access.status && access.name) {
-          this.props.userLoged(access.name)
+          this.props.logInUser(access.name)
         }
       })
   }
@@ -105,7 +116,7 @@ class Login extends Component {
 
     Object.keys(this.state.form).forEach((input, index) => {
       inputsArray.push({
-        id: input,
+        key: input,
         inputConfig: this.state.form[input]
       })
     })
@@ -116,16 +127,19 @@ class Login extends Component {
           tagType={input.inputConfig.tagType}
           placeholder={input.inputConfig.placeholder}
           value={input.inputConfig.value}
-          change={(event) => this.inputChangeHandler(input.id, event)}
-          key={input.id}
+          change={(event) => this.handleInputChange(input.key, event)}
+          type={input.inputConfig.type}
+          key={input.key}
+          warning={input.inputConfig.warning}
+          label={input.inputConfig.label}
         />
-      )     
+      )
     })
 
     return (
       <NoRootElement>
         {inputs}
-        <button onClick={this.loginHandler}>Login</button>
+        <Button handleClick={this.handleLoginClick} style={{margin: '15px'}}>Login</Button>
       </NoRootElement>
     )
   }

@@ -3,9 +3,8 @@ import styles from './Intro.css'
 
 import ImageSlider from '../../components/UI/ImageSlider/ImageSlider'
 import Auth from './Auth/Auth'
-import RaisedButton from 'material-ui/RaisedButton';
+import Button from '../../components/UI/Button/Button'
 
-//slider images
 import sliderImage1 from '../../assets/slider1.jpg'
 import sliderImage2 from '../../assets/slider2.jpg'
 import sliderImage3 from '../../assets/slider3.jpg'
@@ -14,15 +13,15 @@ import sliderImage5 from '../../assets/slider5.jpg'
 
 class Intro extends Component {
   state = {
-    authBarActive: false
+    authIsActive: false
   }
 
-  authBarActivate = () => {
-    this.setState({authBarActive: true})
+  handleAuthOpenClick = () => {
+    this.setState({authIsActive: true})
   }
 
-  authBarDeActivate = () => {
-    this.setState({authBarActive: false})
+  handleAuthCloseClick = () => {
+    this.setState({authIsActive: false})
   }
 
   render() {
@@ -37,9 +36,9 @@ class Intro extends Component {
     return (
       <div className={styles.Intro}>
         <Auth
-          active={this.state.authBarActive} 
-          click={this.authBarDeActivate}
-          userLoged={this.props.userLoged}
+          authIsActive={this.state.authIsActive} 
+          authClose={this.handleAuthCloseClick}
+          logInUser={this.props.logInUser}
         />
 
         <h1>Ancient Olympus</h1>
@@ -52,10 +51,7 @@ class Intro extends Component {
 
         <p>Greek mythology is a corpus of stories created throughout a long period of time, often in various places by neighboring, though different tribes. The lack of consistency is apparent in many cases, as for example there may be two, three or more versions of a certain myth, most usually differing in minor points. The parentage of Greek heroes is often problematic. Different areas and royal houses may contest their affiliation to a famous hero; or, the myth may have become so popular, re-told so many times, that various versions circulated depending on the storytellers' imagination; or, the thread of the myth was lost somehow and, when resuscitated, parts of it had become obscure for the newer generations.</p>
         
-        <RaisedButton 
-          label="START GAME" 
-          onClick={this.authBarActivate}
-        />
+        <Button handleClick={this.handleAuthOpenClick}>START GAME</Button>
       </div>
     )
   }
