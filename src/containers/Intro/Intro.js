@@ -38,7 +38,6 @@ class Intro extends Component {
         <Auth
           authIsActive={this.state.authIsActive} 
           authClose={this.handleAuthCloseClick}
-          logInUser={this.props.logInUser}
         />
 
         <h1>Ancient Olympus</h1>

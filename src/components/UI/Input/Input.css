@@ -2,7 +2,6 @@
   display: flex;
   flex-flow: column nowrap;
   align-self: center;
-  margin-bottom: 5px;
 }
 
 .Input {
@@ -22,6 +21,7 @@
   align-self: flex-start;
   font-size: 18px;
   cursor: pointer;
+  margin-bottom: 3px;
 }
 
 .Warning {

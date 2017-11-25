@@ -14,6 +14,7 @@ const input = (props) => {
           onChange={props.change}
           value={props.value}
           type={props.type}
+          onKeyPress={props.keyPress}
         />
       )
       break;

@@ -1,34 +1,19 @@
 import React, { Component } from 'react'
 import styles from './App.css'
 import { BrowserRouter as Router } from 'react-router-dom';
+import { connect } from 'react-redux'
 
 import Game from './containers/Game/Game'
 import Intro from './containers/Intro/Intro'
 
 class App extends Component {
-  state = {
-    user: {
-      userName: '',
-      isLogged: false
-    }
-  }
-
-  logInUser = (userName) => {
-    if (typeof userName !== 'string' || userName.length < 1) return
-    const user = {...this.state.user}
-    user.isLogged = true
-    user.userName = userName
-    
-    this.setState({ user })
-  }
-
   render() {
     return (
       <Router>
         <div className={styles.App}>
-          {this.state.user.isLogged ? 
-            <Game userName={this.state.userName} /> :
-            <Intro logInUser={this.logInUser} />
+          {this.props.isLogged ? 
+            <Game /> :
+            <Intro />
           }
         </div>
       </Router>
@@ -36,4 +21,12 @@ class App extends Component {
   }
 }
 
-export default App
+const mapStateToProps = state => {
+  return {
+    isLogged: state.user.isLogged,
+    userName: state.user.userName
+  }
+}
+
+export default connect(mapStateToProps)(App)
+

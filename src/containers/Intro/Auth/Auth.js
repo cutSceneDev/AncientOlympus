@@ -11,7 +11,7 @@ class Auth extends Component {
     regIsActive: false
   }
 
-  handlerRegOpenClick = () => {
+  handleRegOpenClick = () => {
     this.setState({regIsActive: true})
   }
 
@@ -30,8 +30,7 @@ class Auth extends Component {
             />
           ) : (
             <Login
-              handlerRegOpenClick={this.handlerRegOpenClick}
-              logInUser={this.props.logInUser}
+              handleRegOpenClick={this.handleRegOpenClick}
             />
           )}
         </Modal>
