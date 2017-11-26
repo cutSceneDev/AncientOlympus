@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import styles from './App.css'
-import { BrowserRouter as Router } from 'react-router-dom';
+import { BrowserRouter as Router } from 'react-router-dom'
 import { connect } from 'react-redux'
 
 import Game from './containers/Game/Game'

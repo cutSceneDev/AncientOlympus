@@ -7,7 +7,7 @@ import NoRootElement from '../../../hoc/NoRootElement'
 const modal = (props) => {
   return (
     <NoRootElement>
-        <BackDrop active={props.active} click={props.click} />
+        <BackDrop active={props.active} click={props.onClick} />
         <div 
           className={styles.Modal} 
           style={{transform: props.active ? 'translateY(0)' : 'translateY(-100vh)'}}
@@ -16,6 +16,6 @@ const modal = (props) => {
         </div>
     </NoRootElement>
   )
-}
+};
 
 export default modal

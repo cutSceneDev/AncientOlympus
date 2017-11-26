@@ -48,22 +48,22 @@ class Login extends Component {
   }
 
   inputsPreValidation = () => {
-    let invalid = false;
+    let invalid = false
 
     Object.keys(this.state.form).forEach((input) => {
       if (this.state.form[input].value.length < 1) {
-        invalid = true;
+        invalid = true
         this.changeInputsWarning(input, 'incorrect length of input')
       }
-    })
+    });
 
-    return invalid;
+    return invalid
   }
 
   inputsValidation = (data) => {
     const login = this.state.form.login.value
     const password = this.state.form.password.value
-    const access = {status: false, name: ''}
+    const access = {status: false, userName: ''}
     const warning = {input: '', text: ''}
      
     Object.keys(data).forEach((user) => {
@@ -72,7 +72,7 @@ class Login extends Component {
       if (data[user].login === login) {
         if (data[user].password === password) {
           access.status = true
-          access.name = login
+          access.userName = login
         } else {
           warning.input = 'password'
           warning.text = 'password incorect'
@@ -86,7 +86,7 @@ class Login extends Component {
     if (!access.status) {
       this.changeInputsWarning(warning.input, warning.text)
     }
-    return access;
+    return access
   }
 
   handleLoginClick = (e) => {
@@ -106,8 +106,8 @@ class Login extends Component {
         }
 
         const access = this.inputsValidation(response.data)
-        if (access.status && access.name) {
-          this.props.loginUser(access.name)
+        if (access.status && access.userName) {
+          this.props.onloginUser(access.userName)
         }
       })
       .catch(error => console.error(error))
@@ -142,8 +142,9 @@ class Login extends Component {
     return (
       <NoRootElement>
         {inputs}
-        <Button handleClick={this.handleLoginClick} style={{marginTop: '5px'}}>Login</Button>
-        <Button handleClick={this.props.handleRegOpenClick} style={{marginTop: '15px'}}>I haven't account</Button>
+        <Button onClick={this.handleLoginClick} style={{marginTop: '5px'}}>Login</Button>
+        <Button onClick={this.props.onRegOpenClick} style={{marginTop: '15px'}}>I haven't account</Button>
+        <button onClick={this.props.onShowUser}>show</button>
       </NoRootElement>
     )
   }
@@ -152,7 +153,8 @@ class Login extends Component {
 
 const mapDispatchToProps = dispatch => {
   return {
-    loginUser: payload => dispatch({type: 'LOGINUSER'}, payload)
+    onloginUser: userName => dispatch({type: 'LOGINUSER', payload: { userName }}),
+    onShowUser: () => dispatch({type: 'SHOWUSER'})
   }
 }
 

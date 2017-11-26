@@ -2,7 +2,7 @@ import React from 'react'
 import styles from './Input.css'
 
 const input = (props) => {
-  let input = null
+  let input = null;
 
   switch (props.tagType) {
     case 'input':
@@ -30,6 +30,6 @@ const input = (props) => {
       <div className={styles.Warning}>{props.warning}</div>
     </div>
   )
-}
+};
 
 export default input

@@ -23,14 +23,14 @@ class Auth extends Component {
   render() {
     return (
       <div className={styles.Auth}>
-        <Modal active={this.props.authIsActive} click={this.props.authClose}>
+        <Modal active={this.props.authIsActive} onClick={this.props.onAuthCloseClick}>
           {this.state.regIsActive ? (
             <Register 
-              handleRegCloseClick={this.handleRegCloseClick}
+              onRegCloseClick={this.handleRegCloseClick}
             />
           ) : (
             <Login
-              handleRegOpenClick={this.handleRegOpenClick}
+              onRegOpenClick={this.handleRegOpenClick}
             />
           )}
         </Modal>

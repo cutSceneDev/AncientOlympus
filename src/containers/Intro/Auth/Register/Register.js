@@ -59,23 +59,23 @@ class Register extends Component {
 
     Object.keys(this.state.form).forEach((input) => {
       if (this.state.form[input].value.length < 1) {
-        invalid = true;
+        invalid = true
         this.changeInputsWarning(input, 'incorrect length of input')
       }
     })
     if (this.state.form.password.value !== this.state.form.passwordRepeat.value) {
-      invalid = true;
+      invalid = true
       this.changeInputsWarning('passwordRepeat', 'passwordRepeat doesn\'t match')
     }
 
-    return invalid;
+    return invalid
   }
 
   handleRegisterClick = (e) => {
     if (e.key && e.key !== 'Enter') return;
     if ( this.inputsPreValidation() ) return;
 
-    const date = new Date()
+    const date = new Date();
     axios.post('/login.json', {
       login: this.state.form.loginName.value,
       password: this.state.form.password.value,
@@ -91,7 +91,7 @@ class Register extends Component {
   }
 
   render() {
-    const inputsArray = []
+    const inputsArray = [];
 
     Object.keys(this.state.form).forEach((input, index) => {
       inputsArray.push({
@@ -119,8 +119,8 @@ class Register extends Component {
     return (
       <NoRootElement>
         {inputs}
-        <Button handleClick={this.handleRegisterClick} style={{marginTop: '5px'}}>Create account</Button>
-        <Button handleClick={this.props.handleRegCloseClick} style={{marginTop: '15px'}}>Back</Button>
+        <Button onClick={this.handleRegisterClick} style={{marginTop: '5px'}}>Create account</Button>
+        <Button onClick={this.props.onRegCloseClick} style={{marginTop: '15px'}}>Back</Button>
       </NoRootElement>
     )
   }
