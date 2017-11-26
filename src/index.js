@@ -1,21 +1,29 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import { createStore } from 'redux'
+import { createStore, combineReducers } from 'redux'
 import { Provider } from 'react-redux'
+import interfaceReducer from './store/reducers/interface'
+import loginReducer from './store/reducers/login'
+import { BrowserRouter as Router } from 'react-router-dom'
 
 import './index.css'
 import App from './App'
 import registerServiceWorker from './registerServiceWorker'
 import axios from 'axios'
-import reducer from './store/reducer'
 
 axios.defaults.baseURL = 'https://ancient-olympus.firebaseio.com/'
 
-const store = createStore(reducer)
+const rootReducer = combineReducers({
+  interface: interfaceReducer,
+  login: loginReducer
+})
+const store = createStore(rootReducer)
 
 const app = (
   <Provider store={store}>
-    <App />
+    <Router>
+      <App />
+    </Router>
   </Provider>
 );
 

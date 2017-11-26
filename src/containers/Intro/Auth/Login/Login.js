@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import axios from 'axios'
 import { connect } from 'react-redux'
+import * as actionTypes from '../../../../store/actions'
 
 import NoRootElement from '../../../../hoc/NoRootElement'
 import Input from '../../../../components/UI/Input/Input'
@@ -118,11 +119,6 @@ class Login extends Component {
       })
   }
 
-  test = () => {
-    this.props.onSpinnerStart()
-    setTimeout(() => this.props.onSpinnerStop(), 10000)
-  }
-
   render() {
     const inputsArray = []
 
@@ -154,7 +150,6 @@ class Login extends Component {
         {inputs}
         <Button onClick={this.handleLoginClick} style={{marginTop: '5px'}}>Login</Button>
         <Button onClick={this.props.onRegOpenClick} style={{marginTop: '15px'}}>I haven't account</Button>
-        <button onClick={this.test}>test</button>
       </NoRootElement>
     )
   }
@@ -163,9 +158,9 @@ class Login extends Component {
 
 const mapDispatchToProps = dispatch => {
   return {
-    onloginUser: userName => dispatch({type: 'LOGINUSER', payload: { userName }}),
-    onSpinnerStart: () => dispatch({type: 'SPINNER_START'}),
-    onSpinnerStop: () => dispatch({type: 'SPINNER_STOP'})
+    onloginUser: userName => dispatch({type: actionTypes.LOGIN_USER, payload: { userName }}),
+    onSpinnerStart: () => dispatch({type: actionTypes.SPINNER_START}),
+    onSpinnerStop: () => dispatch({type: actionTypes.SPINNER_STOP})
   }
 }
 

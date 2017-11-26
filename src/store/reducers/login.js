@@ -1,5 +1,6 @@
+import * as actionTypes from '../actions'
+
 const initialState = {
-  spinnerIsActive: false,
   user: {
     userName: '',
     isLogged: false
@@ -8,7 +9,8 @@ const initialState = {
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
-    case 'LOGINUSER':
+    case actionTypes.LOGIN_USER:
+    console.log(state, action);
       return {
         ...state,
         user: {
@@ -17,17 +19,6 @@ const reducer = (state = initialState, action) => {
           userName: action.payload.userName
         }
       }
-    case 'SPINNER_START':
-      return {
-        ...state,
-        spinnerIsActive: true
-      }
-    case 'SPINNER_STOP':
-      return {
-        ...state,
-        spinnerIsActive: false
-      }
-
     default:
       return state
   }

@@ -25,7 +25,7 @@ const spinner = props => {
 
 const mapStateToProps = state => {
   return {
-    spinnerIsActive: state.spinnerIsActive
+    spinnerIsActive: state.interface.spinnerIsActive
   }
 }
 
