@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import axios from 'axios'
+import { connect } from 'react-redux'
 
 import NoRootElement from '../../../../hoc/NoRootElement'
 import Input from '../../../../components/UI/Input/Input'
@@ -71,22 +72,28 @@ class Register extends Component {
     return invalid
   }
 
-  handleRegisterClick = (e) => {
+  handleRegisterClick = e => {
     if (e.key && e.key !== 'Enter') return;
     if ( this.inputsPreValidation() ) return;
 
+    this.props.onSpinnerStart()
     const date = new Date();
     axios.post('/login.json', {
       login: this.state.form.loginName.value,
       password: this.state.form.password.value,
       date: `${date.getDate()}.${date.getMonth()}.${date.getFullYear()}`
     })
-      .then((response) => {
+      .then(response => {
+        this.props.onSpinnerStop()
         if (response.status !== 200) {
           console.error(response.statusText)
           return;
         }
         this.props.handleRegCloseClick()
+      })
+      .catch(error => {
+        console.error(error)
+        this.props.onSpinnerStop()
       })
   }
 
@@ -100,7 +107,7 @@ class Register extends Component {
       })
     })
 
-    const inputs = inputsArray.map((input) => {
+    const inputs = inputsArray.map(input => {
       return (
         <Input
           tagType={input.inputConfig.tagType}
@@ -126,4 +133,11 @@ class Register extends Component {
   }
 }
 
-export default Register
+const mapDispatchToProps = dispatch => {
+  return {
+    onSpinnerStart: () => dispatch({type: 'SPINNER_START'}),
+    onSpinnerStop: () => dispatch({type: 'SPINNER_STOP'})
+  }
+}
+
+export default connect(null, mapDispatchToProps)(Register)

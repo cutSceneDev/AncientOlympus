@@ -23,7 +23,7 @@ class Auth extends Component {
   render() {
     return (
       <div className={styles.Auth}>
-        <Modal active={this.props.authIsActive} onClick={this.props.onAuthCloseClick}>
+        <Modal isActive={this.props.authIsActive} onClick={this.props.onAuthCloseClick}>
           {this.state.regIsActive ? (
             <Register 
               onRegCloseClick={this.handleRegCloseClick}

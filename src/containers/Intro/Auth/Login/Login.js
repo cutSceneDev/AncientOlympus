@@ -66,7 +66,7 @@ class Login extends Component {
     const access = {status: false, userName: ''}
     const warning = {input: '', text: ''}
      
-    Object.keys(data).forEach((user) => {
+    Object.keys(data).forEach(user => {
       if (access.status || warning.input === 'password') return;
 
       if (data[user].login === login) {
@@ -89,12 +89,14 @@ class Login extends Component {
     return access
   }
 
-  handleLoginClick = (e) => {
+  handleLoginClick = e => {
     if (e.key && e.key !== 'Enter') return;
     if ( this.inputsPreValidation() ) return;
 
+    this.props.onSpinnerStart()
     axios.get('/login.json')
-      .then((response) => {
+      .then(response => {
+        this.props.onSpinnerStop()
         if (response.status !== 200) {
           console.error(response.statusText)
           return;
@@ -110,7 +112,15 @@ class Login extends Component {
           this.props.onloginUser(access.userName)
         }
       })
-      .catch(error => console.error(error))
+      .catch(error => {
+        console.error(error)
+        this.props.onSpinnerStop()
+      })
+  }
+
+  test = () => {
+    this.props.onSpinnerStart()
+    setTimeout(() => this.props.onSpinnerStop(), 10000)
   }
 
   render() {
@@ -123,13 +133,13 @@ class Login extends Component {
       })
     })
 
-    const inputs = inputsArray.map((input) => {
+    const inputs = inputsArray.map(input => {
       return (
         <Input
           tagType={input.inputConfig.tagType}
           placeholder={input.inputConfig.placeholder}
           value={input.inputConfig.value}
-          change={(e) => this.handleInputChange(input.key, e)}
+          change={e => this.handleInputChange(input.key, e)}
           keyPress={this.handleLoginClick}
           type={input.inputConfig.type}
           key={input.key}
@@ -144,7 +154,7 @@ class Login extends Component {
         {inputs}
         <Button onClick={this.handleLoginClick} style={{marginTop: '5px'}}>Login</Button>
         <Button onClick={this.props.onRegOpenClick} style={{marginTop: '15px'}}>I haven't account</Button>
-        <button onClick={this.props.onShowUser}>show</button>
+        <button onClick={this.test}>test</button>
       </NoRootElement>
     )
   }
@@ -154,7 +164,8 @@ class Login extends Component {
 const mapDispatchToProps = dispatch => {
   return {
     onloginUser: userName => dispatch({type: 'LOGINUSER', payload: { userName }}),
-    onShowUser: () => dispatch({type: 'SHOWUSER'})
+    onSpinnerStart: () => dispatch({type: 'SPINNER_START'}),
+    onSpinnerStop: () => dispatch({type: 'SPINNER_STOP'})
   }
 }
 

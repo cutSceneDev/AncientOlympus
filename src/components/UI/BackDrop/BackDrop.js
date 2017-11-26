@@ -1,14 +1,14 @@
 import React from 'react'
 import styles from './BackDrop.css'
 
-const backDrop = (props) => {
+const backDrop = props => {
   return (
     <div
       className={styles.BackDrop}
-      onClick={props.click}
+      onClick={props.onClick}
       style={{
-        opacity: props.active ? 1 : 0,
-        zIndex: props.active ? 100 : -100
+        opacity: props.isActive ? 1 : 0,
+        zIndex: props.isActive ? props.zIndex || 100 : -100
       }}
     />
   )

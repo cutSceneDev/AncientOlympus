@@ -4,13 +4,13 @@ import styles from './Modal.css'
 import BackDrop from '../BackDrop/BackDrop'
 import NoRootElement from '../../../hoc/NoRootElement'
 
-const modal = (props) => {
+const modal = props => {
   return (
     <NoRootElement>
-        <BackDrop active={props.active} click={props.onClick} />
+        <BackDrop isActive={props.isActive} onClick={props.onClick} />
         <div 
           className={styles.Modal} 
-          style={{transform: props.active ? 'translateY(0)' : 'translateY(-100vh)'}}
+          style={{transform: props.isActive ? 'translateY(0)' : 'translateY(-100vh)'}}
         >
           {props.children}
         </div>
