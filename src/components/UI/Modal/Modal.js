@@ -1,20 +1,47 @@
 import React from 'react'
 import styles from './Modal.css'
 
+import Transition from 'react-transition-group/Transition'
 import BackDrop from '../BackDrop/BackDrop'
-import NoRootElement from '../../../hoc/NoRootElement'
 
 const modal = props => {
   return (
-    <NoRootElement>
-        <BackDrop isActive={props.isActive} onClick={props.onClick} />
-        <div 
-          className={styles.Modal} 
-          style={{transform: props.isActive ? 'translateY(0)' : 'translateY(-100vh)'}}
-        >
-          {props.children}
-        </div>
-    </NoRootElement>
+    <div>
+      <Transition
+        in={props.isActive}
+        timeout={150}
+        mountOnEnter
+        unmountOnExit
+      >
+        {state => (
+          <div style={{
+            opacity: state === 'entered' ? 1 : 0,
+            transition: 'opacity 150ms ease-out'
+          }}>
+            <BackDrop onCloseClick={props.onCloseClick} />
+          </div>
+        )}
+      </Transition>
+
+      <Transition
+        in={props.isActive}
+        timeout={200}
+        mountOnEnter
+        unmountOnExit
+      >
+        {state => (
+          <div 
+            className={styles.Modal}
+            style={{
+              transform: state === 'entered' ? 'translateY(0)' : 'translateY(-50vh)',
+              transition: 'all 200ms ease-out'
+            }}
+          >
+            {props.children}
+          </div>          
+        )}
+      </Transition>
+    </div>
   )
 };
 

@@ -35,16 +35,16 @@ class Intro extends Component {
 
     return (
       <div className={styles.Intro}>
-        <Auth
-          authIsActive={this.state.authIsActive} 
-          onAuthCloseClick={this.handleAuthCloseClick}
+        <Auth 
+          isActive={this.state.authIsActive}
+          onCloseClick={this.handleAuthCloseClick} 
         />
 
         <h1>Ancient Olympus</h1>
 
         <ImageSlider 
-          width="500" 
-          height="250" 
+          width={500}
+          height={250}
           images={sliderImagesList} 
         />
 

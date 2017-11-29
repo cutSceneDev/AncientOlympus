@@ -12,15 +12,17 @@ class App extends Component {
     return (
       <div className={styles.App}>
         <Spinner />
-        {!this.props.isLogged ? ([
-          <Route path="/intro" render={() => <Intro />} />,
-          <Route path="*" render={() => <Redirect to="/intro" /> } />
-        ]) : (
-        <Switch>
-          <Route path="/game" render={() => <Game />} />
-          <Route path="*" render={() => <Redirect to="/game" /> } />
-        </Switch>
-         )}
+        {!this.props.isLogged ? (
+          <Switch>
+            <Route path="/intro" render={() => <Intro />} />,
+            <Route path="*" render={() => <Redirect to="/intro" /> } />
+          </Switch>
+        ) : (
+          <Switch>
+            <Route path="/game" render={() => <Game />} />
+            <Route path="*" render={() => <Redirect to="/game" /> } />
+          </Switch>
+        )}
       </div>
     );
   }

@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import styles from './Auth.css'
 
 import Login from './Login/Login'
 import Register from './Register/Register'
@@ -8,33 +7,33 @@ import Modal from '../../../components/UI/Modal/Modal'
 
 class Auth extends Component {
   state = {
+    logIsActive: true,
     regIsActive: false
   }
 
   handleRegOpenClick = () => {
-    this.setState({regIsActive: true})
+    this.setState({
+      logIsActive: false,
+      regIsActive: true
+    })
   }
 
-  handleRegCloseClick = () => {
-    this.setState({regIsActive: false})
+  handleLogOpenClick = () => {
+    this.setState({
+      logIsActive: true,
+      regIsActive: false
+    })
   }
-
 
   render() {
     return (
-      <div className={styles.Auth}>
-        <Modal isActive={this.props.authIsActive} onClick={this.props.onAuthCloseClick}>
-          {this.state.regIsActive ? (
-            <Register 
-              onRegCloseClick={this.handleRegCloseClick}
-            />
-          ) : (
-            <Login
-              onRegOpenClick={this.handleRegOpenClick}
-            />
-          )}
-        </Modal>
-      </div>
+      <Modal 
+        isActive={this.props.isActive} 
+        onCloseClick={this.props.onCloseClick}
+      >
+        {this.state.logIsActive && <Login onRegOpenClick={this.handleRegOpenClick} />}
+        {this.state.regIsActive && <Register onLogOpenClick={this.handleLogOpenClick} />}
+      </Modal>
     )
   }
 }
