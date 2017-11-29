@@ -26,8 +26,7 @@ class ImageSlider extends Component {
     const images = this.props.images.map((src, index) => (
       <Transition
         in={arrayOfBooleanSliderStatus[index]}
-        timeout={100}
-        unmountOnExit
+        timeout={0}
         key={src}
       >
         {state => (
@@ -38,7 +37,7 @@ class ImageSlider extends Component {
             alt={''}
             style={{
               opacity: state === 'entered' ? 1 : 0,
-              transition: 'all 500ms ease-out'
+              transition: 'opacity 1000ms ease'
             }}
           />
         )}

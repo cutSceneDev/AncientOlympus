@@ -9,7 +9,7 @@ const modal = props => {
     <div>
       <Transition
         in={props.isActive}
-        timeout={150}
+        timeout={0}
         mountOnEnter
         unmountOnExit
       >

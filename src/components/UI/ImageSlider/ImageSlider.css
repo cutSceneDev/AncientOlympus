@@ -14,4 +14,5 @@
   border: 4px inset #4E342E;
   border-radius: 15px;
   box-shadow: 2px 2px 4px black;
+  box-sizing: border-box
 }
