@@ -6,7 +6,7 @@ import BackDrop from '../BackDrop/BackDrop'
 
 const spinner = props => {
   return props.spinnerIsActive ? (
-    <div className={styles.SpinnerWrapper}>
+    <div>
       <BackDrop
         isActive={props.spinnerIsActive}
         onClick={null}

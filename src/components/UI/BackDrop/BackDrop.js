@@ -6,6 +6,7 @@ const backDrop = props => {
     <div
       className={styles.BackDrop}
       onClick={props.onCloseClick}
+      style={{zIndex: props.zIndex ? props.zIndex : 100}}
     />
   )
 }

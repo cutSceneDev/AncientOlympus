@@ -6,7 +6,7 @@ import BackDrop from '../BackDrop/BackDrop'
 
 const modal = props => {
   return (
-    <div>
+    <div className={styles.ModalWrapper}>
       <Transition
         in={props.isActive}
         timeout={0}
