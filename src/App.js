@@ -1,7 +1,9 @@
 import React, { Component } from 'react'
 import styles from './App.css'
-import { connect } from 'react-redux'
-import { Route, Redirect, withRouter, Switch } from 'react-router-dom'
+
+import { Switch } from 'react-router-dom'
+import PropsRoute from './components/Router/PropsRoute'
+import LoggedRoute from './components/Router/LoggedRoute'
 
 import Game from './containers/Game/Game'
 import Intro from './containers/Intro/Intro'
@@ -12,28 +14,14 @@ class App extends Component {
     return (
       <div className={styles.App}>
         <Spinner />
-        {!this.props.isLogged ? (
-          <Switch>
-            <Route path="/intro" render={() => <Intro />} />,
-            <Route path="*" render={() => <Redirect to="/intro" /> } />
-          </Switch>
-        ) : (
-          <Switch>
-            <Route path="/game" render={() => <Game />} />
-            <Route path="*" render={() => <Redirect to="/game" /> } />
-          </Switch>
-        )}
+        <Switch>
+          <PropsRoute exact path={'/intro'} component={Intro} />
+          <LoggedRoute path={'*'} component={Game} />
+        </Switch>
       </div>
     );
   }
 }
 
-const mapStateToProps = state => {
-  return {
-    isLogged: state.login.user.isLogged,
-    userName: state.login.user.userName
-  }
-}
-
-export default withRouter(connect(mapStateToProps)(App))
+export default App
 

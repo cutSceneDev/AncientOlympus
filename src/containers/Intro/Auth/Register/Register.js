@@ -128,7 +128,7 @@ class Register extends Component {
       <NoRootElement>
         {inputs}
         <Button onClick={this.handleRegisterClick} style={{marginTop: '5px'}}>Create account</Button>
-        <Button onClick={this.props.onLogOpenClick} style={{marginTop: '15px'}}>Back</Button>
+        <Button onClick={this.props.onToggleAuth} style={{marginTop: '15px'}}>Back</Button>
       </NoRootElement>
     )
   }

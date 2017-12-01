@@ -1,8 +1,10 @@
 import React, { Component } from 'react'
 import axios from 'axios'
+
 import { connect } from 'react-redux'
 import * as actionTypes from '../../../../store/actions'
 
+import { withRouter } from 'react-router-dom'
 import NoRootElement from '../../../../hoc/NoRootElement'
 import Input from '../../../../components/UI/Input/Input'
 import Button from '../../../../components/UI/Button/Button'
@@ -111,6 +113,7 @@ class Login extends Component {
         const access = this.inputsValidation(response.data)
         if (access.status && access.userName) {
           this.props.onloginUser(access.userName)
+          this.props.history.push('/game')
         }
       })
       .catch(error => {
@@ -149,7 +152,7 @@ class Login extends Component {
       <NoRootElement>
         {inputs}
         <Button onClick={this.handleLoginClick} style={{marginTop: '5px'}}>Login</Button>
-        <Button onClick={this.props.onRegOpenClick} style={{marginTop: '15px'}}>I haven't account</Button>
+        <Button onClick={this.props.onToggleAuth} style={{marginTop: '15px'}}>I haven't account</Button>
       </NoRootElement>
     )
   }
@@ -164,4 +167,4 @@ const mapDispatchToProps = dispatch => {
   }
 }
 
-export default connect(null, mapDispatchToProps)(Login)
+export default withRouter(connect(null, mapDispatchToProps)(Login))
