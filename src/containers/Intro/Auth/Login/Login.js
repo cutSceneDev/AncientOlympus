@@ -1,10 +1,10 @@
 import React, { Component } from 'react'
 import axios from 'axios'
 
+import { auth } from '../../../../firebase/firebase'
 import { connect } from 'react-redux'
-import * as actionTypes from '../../../../store/actions'
+import { spinnerStart, spinnerStop, loginUser } from '../../../../store/actions/index'
 
-import { withRouter } from 'react-router-dom'
 import NoRootElement from '../../../../hoc/NoRootElement'
 import Input from '../../../../components/UI/Input/Input'
 import Button from '../../../../components/UI/Button/Button'
@@ -92,34 +92,15 @@ class Login extends Component {
     return access
   }
 
-  handleLoginClick = e => {
+  handleLoginClick = (e) => {
     if (e.key && e.key !== 'Enter') return;
     if ( this.inputsPreValidation() ) return;
 
     this.props.onSpinnerStart()
-    axios.get('/login.json')
-      .then(response => {
-        this.props.onSpinnerStop()
-        if (response.status !== 200) {
-          console.error(response.statusText)
-          return;
-        }
-
-        if (Object.keys(response.data).length < 1) {
-          console.error('Server Data is empty')
-          return;
-        }
-
-        const access = this.inputsValidation(response.data)
-        if (access.status && access.userName) {
-          this.props.onloginUser(access.userName)
-          this.props.history.push('/game')
-        }
-      })
-      .catch(error => {
-        console.error(error)
-        this.props.onSpinnerStop()
-      })
+    
+    this.props.onloginUser(this.state.form.login.value, this.state.form.password.value)
+ 
+    this.props.onSpinnerStop()
   }
 
   render() {
@@ -159,12 +140,12 @@ class Login extends Component {
 
 }
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch) => {
   return {
-    onloginUser: userName => dispatch({type: actionTypes.LOGIN_USER, payload: { userName }}),
-    onSpinnerStart: () => dispatch({type: actionTypes.SPINNER_START}),
-    onSpinnerStop: () => dispatch({type: actionTypes.SPINNER_STOP})
+    onloginUser: (email, password) => dispatch(loginUser(email)),
+    onSpinnerStart: () => dispatch(spinnerStart()),
+    onSpinnerStop: () => dispatch(spinnerStop())
   }
 }
-
-export default withRouter(connect(null, mapDispatchToProps)(Login))
+ 
+export default connect(null, mapDispatchToProps)(Login)

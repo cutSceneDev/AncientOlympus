@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import axios from 'axios'
 import { connect } from 'react-redux'
-import * as actionTypes from '../../../../store/actions'
+import { spinnerStart, spinnerStop } from '../../../../store/actions/index'
 
 import NoRootElement from '../../../../hoc/NoRootElement'
 import Input from '../../../../components/UI/Input/Input'
@@ -136,8 +136,8 @@ class Register extends Component {
 
 const mapDispatchToProps = dispatch => {
   return {
-    onSpinnerStart: () => dispatch({type: actionTypes.SPINNER_START}),
-    onSpinnerStop: () => dispatch({type: actionTypes.SPINNER_STOP})
+    onSpinnerStart: () => dispatch(spinnerStart()),
+    onSpinnerStop: () => dispatch(spinnerStop())
   }
 }
 

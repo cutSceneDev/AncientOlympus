@@ -1,29 +1,31 @@
 import React, { Component } from 'react'
 
 import Login from './Login/Login'
-import Register from './Register/Register'
+import Reg from './Reg/Reg'
 import Modal from '../../../components/UI/Modal/Modal'
 
 class Auth extends Component {
   state = {
-    logIsActive: true
+    loginIsActive: true
   }
 
-  handleToggleLogin = () => ( 
-    this.setState(prevState => ({
-      logIsActive: !prevState.logIsActive
-    }))
+  handleActiveLogin = () => ( 
+    this.setState({loginIsActive: true})
+  )
+
+  handleActiveReg = () => ( 
+    this.setState({loginIsActive: false})
   )
 
   render() {
     return (
       <Modal 
-        isActive={this.props.isActive} 
-        onCloseClick={this.props.onToggleAuth}
+        isActive={this.props.authIsActive} 
+        onCloseClick={this.props.onCloseAuth}
       >
-        {this.state.logIsActive ? 
-          <Login onToggleAuth={this.handleToggleLogin} /> :
-          <Register onToggleAuth={this.handleToggleLogin} />
+        {this.state.loginIsActive ? 
+          <Login onToggleAuth={this.handleActiveReg} /> :
+          <Reg onToggleAuth={this.handleActiveLogin} />
         }
       </Modal>
     )

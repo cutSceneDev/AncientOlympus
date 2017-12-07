@@ -1,4 +1,8 @@
 import React, { Component } from 'react'
+import styles from './Game.css'
+
+import UserBar from './UserBar/UserBar'
+import Locations from './Locations/Locations'
 
 class Board extends Component {
   state = {
@@ -7,10 +11,10 @@ class Board extends Component {
 
   render() {
 
-
     return(
-      <div>
-        game
+      <div className={styles.Game}>
+        <UserBar />
+        <Locations />
       </div>
     )
   }

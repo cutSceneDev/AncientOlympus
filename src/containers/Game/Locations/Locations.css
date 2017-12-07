@@ -1,0 +1,10 @@
+.Locations {
+  width: 100%;
+  padding: 15px;
+  margin: 30px;
+  text-align: center;
+  background: radial-gradient(#616161, #212121);
+  border: 4px inset #4E342E;
+  border-radius: 15px;
+  box-shadow: 2px 2px 4px black;
+} 
