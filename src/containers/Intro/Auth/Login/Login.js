@@ -1,10 +1,9 @@
 import React, { Component } from 'react'
-import axios from 'axios'
+
+import { connect } from 'react-redux'
+import { loginUser, spinnerStart, spinnerStop } from '../../../../store/actions/index'
 
 import { auth } from '../../../../firebase/firebase'
-import { connect } from 'react-redux'
-import { spinnerStart, spinnerStop, loginUser } from '../../../../store/actions/index'
-
 import NoRootElement from '../../../../hoc/NoRootElement'
 import Input from '../../../../components/UI/Input/Input'
 import Button from '../../../../components/UI/Button/Button'
@@ -12,11 +11,11 @@ import Button from '../../../../components/UI/Button/Button'
 class Login extends Component {
   state = {
     form: {
-      login: {
+      email: {
         tagType: 'input',
         placeholder: '',
         value: '',
-        label: 'Login Name:',
+        label: 'Email:',
         warning: ''
       },
       password: {
@@ -29,16 +28,6 @@ class Login extends Component {
       }
     }
   }
-  
-  changeInputsWarning = (inputKey, warning) => {
-    const newForm = {...this.state.form}
-    const newInput = {...newForm[inputKey]}
-
-    newInput.warning = warning
-    newForm[inputKey] = newInput
-
-    this.setState({form: newForm})
-  }
 
   handleInputChange = (inputKey, e) => {
     const newForm = {...this.state.form}
@@ -50,57 +39,16 @@ class Login extends Component {
     this.setState({form: newForm}, () => this.changeInputsWarning(inputKey, ''))
   }
 
-  inputsPreValidation = () => {
-    let invalid = false
-
-    Object.keys(this.state.form).forEach((input) => {
-      if (this.state.form[input].value.length < 1) {
-        invalid = true
-        this.changeInputsWarning(input, 'incorrect length of input')
-      }
-    });
-
-    return invalid
-  }
-
-  inputsValidation = (data) => {
-    const login = this.state.form.login.value
-    const password = this.state.form.password.value
-    const access = {status: false, userName: ''}
-    const warning = {input: '', text: ''}
-     
-    Object.keys(data).forEach(user => {
-      if (access.status || warning.input === 'password') return;
-
-      if (data[user].login === login) {
-        if (data[user].password === password) {
-          access.status = true
-          access.userName = login
-        } else {
-          warning.input = 'password'
-          warning.text = 'password incorect'
-        }
-      } else {
-        warning.input = 'login'
-        warning.text = 'such user doesn\'t exist'
-      }
-    })
-
-    if (!access.status) {
-      this.changeInputsWarning(warning.input, warning.text)
-    }
-    return access
-  }
-
   handleLoginClick = (e) => {
     if (e.key && e.key !== 'Enter') return;
-    if ( this.inputsPreValidation() ) return;
 
     this.props.onSpinnerStart()
-    
-    this.props.onloginUser(this.state.form.login.value, this.state.form.password.value)
- 
-    this.props.onSpinnerStop()
+    auth.signInWithEmailAndPassword(this.state.form.email.value, this.state.form.password.value)
+      .then( () => this.props.onSpinnerStop() )
+      .catch(error => {
+        console.info(error.code, error.message)
+        this.props.onSpinnerStop()
+    });
   }
 
   render() {
@@ -142,9 +90,9 @@ class Login extends Component {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    onloginUser: (email, password) => dispatch(loginUser(email)),
-    onSpinnerStart: () => dispatch(spinnerStart()),
-    onSpinnerStop: () => dispatch(spinnerStop())
+    onloginUser: email => dispatch( loginUser(email) ),
+    onSpinnerStart: () => dispatch( spinnerStart() ),
+    onSpinnerStop: () => dispatch( spinnerStop() )
   }
 }
  

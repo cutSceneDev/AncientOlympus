@@ -6,34 +6,36 @@ import { auth } from './firebase/firebase'
 import Game from './containers/Game/Game'
 import Intro from './containers/Intro/Intro'
 import Spinner from './components/UI/Spinner/Spinner'
-import FirebaseLoginToRedux from './firebase/firebaseLoginToRedux'
+import MapFirebaseLoginToRedux from './firebase/mapFirebaseLoginToRedux'
 
 class App extends Component {
   state = {
     user: ''
   }
 
+  // DEV
   userLogin = () => {
-    auth.signInWithEmailAndPassword('Artyr@gmail.com', 'password').catch(error => {  // logIn
-      console.log(error.code, error.message)
-    });
+    auth.signInWithEmailAndPassword('Artyr@gmail.com', 'password')
+      .catch(error => {
+        console.log(error.code, error.message)
+      });
   }
 
   userLogout = () => {
-    auth.signOut().catch(error => {   // LogOut
+    auth.signOut().catch(error => {
       console.log(error.code, error.message)
     });
   }
+  // DEV
 
   render() {
-    console.log(this.props.userIsLogged)
     return (
       <div>
         <div>
           <button onClick={this.userLogin}>login</button>
           <button onClick={this.userLogout}>logout</button>
         </div>
-        <FirebaseLoginToRedux />
+        <MapFirebaseLoginToRedux />
         <Spinner />
         {this.props.userIsLogged ? (
           <Switch>

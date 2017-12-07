@@ -1,13 +1,13 @@
-import { loginUser, logoutUser } from '../store/actions/index'
+import { loginUser, logoutUser} from '../store/actions/index'
 import { connect } from 'react-redux'
 import { auth } from '../firebase/firebase'
 
 const firebaseStoreActions = (props) => {
-  auth.onAuthStateChanged((user) => {
+  auth.onAuthStateChanged(user => {
     user ? (
-      props.login(user.email)
+      props.onloginUser(user.email)
     ) : (
-      props.logout()
+      props.onlogoutUser()
     )
   })
 
@@ -16,8 +16,8 @@ const firebaseStoreActions = (props) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    login: email => dispatch(loginUser(email)),
-    logout: () => dispatch(logoutUser())
+    onloginUser: email => dispatch( loginUser(email) ),
+    onlogoutUser: () => dispatch( logoutUser() )
   }
 }
 

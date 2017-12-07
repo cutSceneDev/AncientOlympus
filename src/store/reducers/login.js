@@ -2,11 +2,11 @@ import * as actionTypes from '../actions/actionTypes'
 
 const initialState = {
   email: '',
-  isLogged: false
+  isLogged: false,
+  loginWarning: ''
 };
 
 const reducer = (state = initialState, action) => {
-  console.log(action.type, action.email)
   switch (action.type) {
     case actionTypes.LOGIN_USER:
       return {

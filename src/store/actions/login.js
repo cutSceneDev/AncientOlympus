@@ -1,7 +1,5 @@
 import * as actionTypes from './actionTypes'
 
-// import { auth } from '../../firebase/firebase'
-
 export const loginUser = (email) => {
   return {
     type: actionTypes.LOGIN_USER,

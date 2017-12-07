@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
-import axios from 'axios'
+
+import { auth } from '../../../../firebase/firebase'
 import { connect } from 'react-redux'
 import { spinnerStart, spinnerStop } from '../../../../store/actions/index'
 
@@ -10,11 +11,11 @@ import Button from '../../../../components/UI/Button/Button'
 class Register extends Component {
   state = {
     form: {
-      loginName: {
+      email: {
         tagType: 'input',
         placeholder: '',
         value: '',
-        label: 'Login Name:',
+        label: 'Email:',
         warning: ''
       },
       password: {
@@ -36,16 +37,6 @@ class Register extends Component {
     }
   }
 
-  changeInputsWarning = (inputKey, warning) => {
-    const newForm = {...this.state.form}
-    const newInput = {...newForm[inputKey]}
-
-    newInput.warning = warning
-    newForm[inputKey] = newInput
-
-    this.setState({form: newForm})
-  }
-
   handleInputChange = (inputKey, event) => {
     const newForm = {...this.state.form}
     const newInput = {...newForm[inputKey]}
@@ -53,49 +44,19 @@ class Register extends Component {
     newInput.value = event.target.value
     newForm[inputKey] = newInput
 
-    this.setState({form: newForm}, () => this.changeInputsWarning(inputKey, ''))
+    this.setState({form: newForm})
   }
 
-  inputsPreValidation = () => {
-    let invalid = false;
-
-    Object.keys(this.state.form).forEach((input) => {
-      if (this.state.form[input].value.length < 1) {
-        invalid = true
-        this.changeInputsWarning(input, 'incorrect length of input')
-      }
-    })
-    if (this.state.form.password.value !== this.state.form.passwordRepeat.value) {
-      invalid = true
-      this.changeInputsWarning('passwordRepeat', 'passwordRepeat doesn\'t match')
-    }
-
-    return invalid
-  }
-
-  handleRegisterClick = e => {
+  handleRegisterClick = (e) => {
     if (e.key && e.key !== 'Enter') return;
-    if ( this.inputsPreValidation() ) return;
 
     this.props.onSpinnerStart()
-    const date = new Date();
-    axios.post('/login.json', {
-      login: this.state.form.loginName.value,
-      password: this.state.form.password.value,
-      date: `${date.getDate()}.${date.getMonth()}.${date.getFullYear()}`
-    })
-      .then(response => {
-        this.props.onSpinnerStop()
-        if (response.status !== 200) {
-          console.error(response.statusText)
-          return;
-        }
-        this.props.handleRegCloseClick()
-      })
+    auth.createUserWithEmailAndPassword(this.state.form.email.value, this.state.form.password.value)
+      .then( () => this.props.onSpinnerStop() )
       .catch(error => {
-        console.error(error)
+        console.info(error.code, error.message)
         this.props.onSpinnerStop()
-      })
+    });
   }
 
   render() {
@@ -134,10 +95,10 @@ class Register extends Component {
   }
 }
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch) => {
   return {
-    onSpinnerStart: () => dispatch(spinnerStart()),
-    onSpinnerStop: () => dispatch(spinnerStop())
+    onSpinnerStart: () => dispatch( spinnerStart() ),
+    onSpinnerStop: () => dispatch( spinnerStop() )
   }
 }
 
