@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import styles from './Reg.css'
 
 import { auth } from '../../../../firebase/firebase'
 import { connect } from 'react-redux'
@@ -10,13 +11,21 @@ import Button from '../../../../components/UI/Button/Button'
 
 class Register extends Component {
   state = {
+    formIsValid: false,
+    formErrorMessage: '',
     form: {
       email: {
         tagType: 'input',
         placeholder: '',
         value: '',
         label: 'Email:',
-        warning: ''
+        validation: {
+          isValid: false,
+          isTouched: false,
+          errorMessage: '',
+          required: true,
+          type: 'email',
+        }
       },
       password: {
         tagType: 'input',
@@ -24,27 +33,105 @@ class Register extends Component {
         value: '',
         label: 'Password:',
         type: 'password',
-        warning: ''
+        validation: {
+          isValid: false,
+          isTouched: false,
+          errorMessage: '',
+          required: true,
+          minLength: 6
+        }
       },
       passwordRepeat: {
         tagType: 'input',
         placeholder: '',
         value: '',
-        label: 'Repeat your password:',
+        label: 'Password confirmation:',
         type: 'password',
-        warning: ''
+        validation: {
+          isValid: false,
+          isTouched: false,
+          errorMessage: '',
+          required: true,
+          sameAs: 'password'
+        }
       }
     }
   }
 
-  handleInputChange = (inputKey, event) => {
+  checkValidity = (value, rules) => {
+    let validationResult = {
+      isValid: true,
+      errorMessage: ''
+    }
+
+    if (rules.sameAs) {
+      if (value !== this.state.form[rules.sameAs].value) {
+        validationResult.isValid = false
+        validationResult.errorMessage = 'passwords doesn\'t match'
+      }
+    }
+
+    if (rules.type) {
+      if (rules.type === 'email') {
+        const emailRE = /\S+@\S+\.\S+/
+        if (emailRE.test(value) === false) {
+          validationResult.isValid = false
+          validationResult.errorMessage = 'not correct email'
+        }
+      }
+    }
+    
+    if (rules.required) {
+      if (value === '') {
+        validationResult.isValid = false
+        validationResult.errorMessage = 'required'
+      }
+    }
+
+    if (rules.minLength) {
+      if (rules.minLength > value.length) {
+        validationResult.isValid = false
+        validationResult.errorMessage = 'too short'
+      }
+    }
+
+    return validationResult
+  }
+
+  formIsValidCheck = (form) => {
+    let formIsValid = true
+
+    for (let formInput in form) {
+      if (!form[formInput].validation.isValid && form.hasOwnProperty(formInput)) {
+        formIsValid = false
+      }
+    }
+
+    return formIsValid
+  }
+
+  handleInputChange = (inputKey, e) => {
     const newForm = {...this.state.form}
     const newInput = {...newForm[inputKey]}
+    const newValidation = {...newInput.validation}
 
-    newInput.value = event.target.value
+    newInput.value = e.target.value.trim().toLowerCase()
+    newValidation.isTouched = true
+
+    const validationResult = this.checkValidity(newInput.value, newValidation)
+    newValidation.isValid = validationResult.isValid
+    newValidation.errorMessage = validationResult.errorMessage
+
+    newInput.validation = newValidation
     newForm[inputKey] = newInput
 
-    this.setState({form: newForm})
+    const newFormIsValid = this.formIsValidCheck(newForm)
+
+    this.setState({
+      form: newForm, 
+      formIsValid: newFormIsValid, 
+      formErrorMessage: ''
+    })
   }
 
   handleRegisterClick = (e) => {
@@ -54,7 +141,7 @@ class Register extends Component {
     auth.createUserWithEmailAndPassword(this.state.form.email.value, this.state.form.password.value)
       .then( () => this.props.onSpinnerStop() )
       .catch(error => {
-        console.info(error.code, error.message)
+        this.setState({formErrorMessage: error.message})
         this.props.onSpinnerStop()
     });
   }
@@ -62,7 +149,7 @@ class Register extends Component {
   render() {
     const inputsArray = [];
 
-    Object.keys(this.state.form).forEach((input, index) => {
+    Object.keys(this.state.form).forEach(input => {
       inputsArray.push({
         key: input,
         inputConfig: this.state.form[input]
@@ -73,14 +160,15 @@ class Register extends Component {
       return (
         <Input
           tagType={input.inputConfig.tagType}
-          placeholder={input.inputConfig.placeholder}
-          value={input.inputConfig.value}
-          change={(event) => this.handleInputChange(input.key, event)}
-          keyPress={this.handleRegisterClick}
           type={input.inputConfig.type}
+          value={input.inputConfig.value}
+          change={e => this.handleInputChange(input.key, e)}
+          keyPress={this.handleRegisterClick}
+          placeholder={input.inputConfig.placeholder}
           key={input.key}
-          warning={input.inputConfig.warning}
           label={input.inputConfig.label}
+          notValid={!input.inputConfig.validation.isValid && input.inputConfig.validation.isTouched}
+          errorMessage={input.inputConfig.validation.errorMessage}
         />
       )
     })
@@ -88,6 +176,7 @@ class Register extends Component {
     return (
       <NoRootElement>
         {inputs}
+        <span className={styles.RegError}>{this.state.formErrorMessage}</span>
         <Button onClick={this.handleRegisterClick} style={{marginTop: '5px'}}>Create account</Button>
         <Button onClick={this.props.onToggleAuth} style={{marginTop: '15px'}}>Back</Button>
       </NoRootElement>

@@ -18,7 +18,6 @@ class Login extends Component {
         tagType: 'input',
         value: '',
         label: 'Email:',
-        warning: '',
         validation: {
           isValid: false,
           isTouched: false,
@@ -32,12 +31,12 @@ class Login extends Component {
         value: '',
         label: 'Password:',
         type: 'password',
-        warning: '',
         validation: {
           isValid: false,
           isTouched: false,
           errorMessage: '',
-          required: true
+          required: true,
+          minLength: 6
         }
       }
     }
@@ -49,7 +48,13 @@ class Login extends Component {
       errorMessage: ''
     }
 
-    
+    if (rules.sameAs) {
+      if (value !== this.state.form[rules.sameAs].value) {
+        validationResult.isValid = false
+        validationResult.errorMessage = 'passwords doesn\'t match'
+      }
+    }
+
     if (rules.type) {
       if (rules.type === 'email') {
         const emailRE = /\S+@\S+\.\S+/
@@ -66,6 +71,14 @@ class Login extends Component {
         validationResult.errorMessage = 'required'
       }
     }
+
+    if (rules.minLength) {
+      if (rules.minLength > value.length) {
+        validationResult.isValid = false
+        validationResult.errorMessage = 'too short'
+      }
+    }
+
     return validationResult
   }
 
@@ -121,7 +134,7 @@ class Login extends Component {
   render() {
     const inputsArray = []
 
-    Object.keys(this.state.form).forEach((input, index) => {
+    Object.keys(this.state.form).forEach(input => {
       inputsArray.push({
         key: input,
         inputConfig: this.state.form[input]
@@ -132,12 +145,11 @@ class Login extends Component {
       return (
         <Input
           tagType={input.inputConfig.tagType}
+          type={input.inputConfig.type}
           value={input.inputConfig.value}
           change={e => this.handleInputChange(input.key, e)}
           keyPress={this.handleLoginClick}
-          type={input.inputConfig.type}
           key={input.key}
-          warning={input.inputConfig.warning}
           label={input.inputConfig.label}
           notValid={!input.inputConfig.validation.isValid && input.inputConfig.validation.isTouched}
           errorMessage={input.inputConfig.validation.errorMessage}

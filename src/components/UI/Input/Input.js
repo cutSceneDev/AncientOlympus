@@ -24,16 +24,13 @@ const input = (props) => {
 
   return (
     <label className={styles.Label}>
-      <div className={styles.LabelText}>
-        <span className={styles.Text}>{props.label}</span>
-        <span className={styles.Warning}>
-          {props.notValid ? 
-            props.errorMessage : 
-            ''
-          }
-        </span>
-      </div>
+      <span className={styles.Text}>
+        {props.label}
+      </span>
       {inputElement}
+      <span className={styles.Warning}>
+        { props.notValid ? props.errorMessage : '' }
+      </span>
     </label>
   )
 };
