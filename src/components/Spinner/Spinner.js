@@ -2,7 +2,7 @@ import React from 'react'
 import styles from './Spinner.css'
 import { connect } from 'react-redux'
 
-import BackDrop from '../BackDrop/BackDrop'
+import BackDrop from '../UI/BackDrop/BackDrop'
 
 const spinner = props => {
   return props.spinnerIsActive ? (

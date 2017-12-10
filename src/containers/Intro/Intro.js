@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import styles from './Intro.css'
 
-import ImageSlider from '../../components/UI/ImageSlider/ImageSlider'
+import ImageSlider from '../../components/ImageSlider/ImageSlider'
 import Auth from './Auth/Auth'
 import Button from '../../components/UI/Button/Button'
 

@@ -5,7 +5,7 @@ import { connect } from 'react-redux'
 import { auth } from './firebase/firebase'
 import Game from './containers/Game/Game'
 import Intro from './containers/Intro/Intro'
-import Spinner from './components/UI/Spinner/Spinner'
+import Spinner from './components/Spinner/Spinner'
 import MapFirebaseLoginToRedux from './firebase/mapFirebaseLoginToRedux'
 
 class App extends Component {

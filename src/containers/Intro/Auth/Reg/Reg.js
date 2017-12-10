@@ -20,11 +20,15 @@ class Register extends Component {
         value: '',
         label: 'Email:',
         validation: {
-          isValid: false,
-          isTouched: false,
-          errorMessage: '',
-          required: true,
-          type: 'email',
+          state: {
+            isValid: false,
+            isTouched: false           
+          },
+          rules: {
+            errorMessage: '',
+            required: true,
+            type: 'email'
+          }
         }
       },
       password: {
@@ -34,11 +38,15 @@ class Register extends Component {
         label: 'Password:',
         type: 'password',
         validation: {
-          isValid: false,
-          isTouched: false,
-          errorMessage: '',
-          required: true,
-          minLength: 6
+          state: {
+            isValid: false,
+            isTouched: false            
+          },
+          rules: {
+            errorMessage: '',
+            required: true,
+            minLength: 6
+          }
         }
       },
       passwordRepeat: {
@@ -48,11 +56,15 @@ class Register extends Component {
         label: 'Password confirmation:',
         type: 'password',
         validation: {
-          isValid: false,
-          isTouched: false,
-          errorMessage: '',
-          required: true,
-          sameAs: 'password'
+          state: {
+            isValid: false,
+            isTouched: false,
+          },
+          rules: {
+            errorMessage: '',
+            required: true,
+            sameAs: 'password'
+          }
         }
       }
     }
@@ -102,7 +114,7 @@ class Register extends Component {
     let formIsValid = true
 
     for (let formInput in form) {
-      if (!form[formInput].validation.isValid && form.hasOwnProperty(formInput)) {
+      if (!form[formInput].validation.state.isValid && form.hasOwnProperty(formInput)) {
         formIsValid = false
       }
     }
@@ -111,30 +123,33 @@ class Register extends Component {
   }
 
   handleInputChange = (inputKey, e) => {
-    const newForm = {...this.state.form}
-    const newInput = {...newForm[inputKey]}
-    const newValidation = {...newInput.validation}
+    const form = {...this.state.form}
+    const input = {...form[inputKey]}
+    const validation = {...input.validation}
+    const validationState = {...validation.state}
 
-    newInput.value = e.target.value.trim().toLowerCase()
-    newValidation.isTouched = true
+    input.value = e.target.value.trim().toLowerCase()
+    validationState.isTouched = true
 
-    const validationResult = this.checkValidity(newInput.value, newValidation)
-    newValidation.isValid = validationResult.isValid
-    newValidation.errorMessage = validationResult.errorMessage
+    const validationResult = this.checkValidity(input.value, validation.rules)
+    validationState.isValid = validationResult.isValid
+    validationState.errorMessage = validationResult.errorMessage
 
-    newInput.validation = newValidation
-    newForm[inputKey] = newInput
+    validation.state = validationState
+    input.validation = validation
+    form[inputKey] = input
 
-    const newFormIsValid = this.formIsValidCheck(newForm)
+    const formIsValid = this.formIsValidCheck(form)
 
     this.setState({
-      form: newForm, 
-      formIsValid: newFormIsValid, 
+      form, 
+      formIsValid, 
       formErrorMessage: ''
     })
   }
 
   handleRegisterClick = (e) => {
+    if (!this.state.formIsValid) return;
     if (e.key && e.key !== 'Enter') return;
 
     this.props.onSpinnerStart()
@@ -163,12 +178,11 @@ class Register extends Component {
           type={input.inputConfig.type}
           value={input.inputConfig.value}
           change={e => this.handleInputChange(input.key, e)}
-          keyPress={this.handleRegisterClick}
-          placeholder={input.inputConfig.placeholder}
+          keyPress={this.handleLoginClick}
           key={input.key}
           label={input.inputConfig.label}
-          notValid={!input.inputConfig.validation.isValid && input.inputConfig.validation.isTouched}
-          errorMessage={input.inputConfig.validation.errorMessage}
+          notValid={!input.inputConfig.validation.state.isValid && input.inputConfig.validation.state.isTouched}
+          errorMessage={input.inputConfig.validation.state.errorMessage}
         />
       )
     })
