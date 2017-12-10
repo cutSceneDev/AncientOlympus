@@ -4,8 +4,10 @@ import styles from './Button.css'
 import { Link } from 'react-router-dom'
 
 const button = props => {
+  const buttonStyles = [styles.Button, props.disabled ? styles.Disabled : styles.Active].join(' ')
+
   let button = (
-    <button className={styles.Button} onClick={props.onClick} style={props.style}>
+    <button className={buttonStyles} onClick={props.onClick} style={props.style}>
       {props.children}
     </button>
   )

@@ -3,7 +3,6 @@
   border: none;
   font-size: 22px;
 
-  background: #3E2723;
   border-radius: 10px;
   color: #D7CCC8;
   outline: none;
@@ -11,15 +10,24 @@
   box-shadow: 3px 3px 3px black;
   text-align: center;
   font-family: 'Indie Flower', cursive;
+}
+
+.Active {
+  background-color: #3E2723;
   cursor: pointer;
 }
 
-.Button:hover {
+.Active:hover {
   background: #5D4037;
   box-shadow: 2px 2px 2px black;
 }
 
-.Button:active {
+.Active:active {
   background: #795548;
   box-shadow: 1px 1px 1px black;
+}
+
+.Disabled {
+  background-color: grey;
+  cursor: not-allowed;
 }

@@ -1,15 +1,14 @@
 import React from 'react'
 import styles from './Input.css'
 
-const input = props => {
+const input = (props) => {
   let inputElement = null;
 
   switch (props.tagType) {
     case 'input':
-    inputElement = (
+      inputElement = (
         <input
           className={styles.Input}
-          id={props.id}
           placeholder={props.placeholder}
           onChange={props.change}
           value={props.value}
@@ -20,15 +19,22 @@ const input = props => {
       break;
     
     default:
-    inputElement = <p>Wrong Input config</p>
+      inputElement = <p>Wrong Input config</p>
   }
 
   return (
-    <div className={styles.InputWrapper}>
-      <label className={styles.Label} htmlFor={props.id}>{props.label}</label>
-        {inputElement}
-      <div className={styles.Warning}>{props.warning}</div>
-    </div>
+    <label className={styles.Label}>
+      <div className={styles.LabelText}>
+        <span className={styles.Text}>{props.label}</span>
+        <span className={styles.Warning}>
+          {props.notValid ? 
+            props.errorMessage : 
+            ''
+          }
+        </span>
+      </div>
+      {inputElement}
+    </label>
   )
 };
 
