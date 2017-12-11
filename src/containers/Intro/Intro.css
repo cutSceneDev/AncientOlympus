@@ -1,7 +1,7 @@
 .Intro {
   width: 768px;
   margin: 30px auto;
-  padding: 0 15px 15px 15px;
+  padding: 0 5px 15px 15px;
   text-align: center;
   background: radial-gradient(#616161, #212121);
   border: 4px inset #4E342E;
@@ -10,10 +10,10 @@
 } 
 
 .Intro h1 {
-  font-size: 48px;
-  margin-bottom: 15px;
+  font-size: 52px;
+  margin: 15px;
 }
 
 .Intro p {
-  font-size: 18px;
+  font-size: 20px;
 }

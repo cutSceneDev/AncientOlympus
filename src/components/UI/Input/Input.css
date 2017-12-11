@@ -1,10 +1,11 @@
 .Input {
-  padding: 3px 5px;
+  padding: 5px 5px;
   border: none;
   border-radius: 5px;
   color: #4E342E;
   box-shadow: 0px 0px 10px black;
   outline: none;
+  font-size: 16px;
 }
 
 .Label {
@@ -21,10 +22,10 @@
 
 .Warning {
   align-self: flex-end;
-  font-size: 12px;
+  font-size: 14px;
   color: red;
 }
 
 .Warning:empty {
-  margin-bottom: 18px;
+  margin-bottom: 16px;
 }

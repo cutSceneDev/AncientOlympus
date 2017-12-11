@@ -1,5 +1,5 @@
 .Button {
-  padding: 2px 18px;
+  padding: 4px 18px;
   border: none;
   font-size: 22px;
 
@@ -9,7 +9,6 @@
   text-transform: uppercase;
   box-shadow: 3px 3px 3px black;
   text-align: center;
-  font-family: 'Indie Flower', cursive;
 }
 
 .Active {

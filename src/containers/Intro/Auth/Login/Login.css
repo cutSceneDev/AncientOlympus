@@ -1,8 +1,8 @@
 .LoginError {
   color: red;
-  font-size: 12px;
+  font-size: 14px;
 }
 
 .LoginError:empty {
-  margin-bottom: 18px;
+  margin-bottom: 16px;
 }

@@ -5,11 +5,12 @@ import { auth } from '../../../../firebase/firebase'
 import { connect } from 'react-redux'
 import { spinnerStart, spinnerStop } from '../../../../store/actions/index'
 
+import validationMethods from '../../../../hoc/validationMethods'
 import NoRootElement from '../../../../hoc/NoRootElement'
 import Input from '../../../../components/UI/Input/Input'
 import Button from '../../../../components/UI/Button/Button'
 
-class Register extends Component {
+class Reg extends Component {
   state = {
     formIsValid: false,
     formErrorMessage: '',
@@ -22,10 +23,10 @@ class Register extends Component {
         validation: {
           state: {
             isValid: false,
-            isTouched: false           
+            isTouched: false,
+            errorMessage: ''  
           },
           rules: {
-            errorMessage: '',
             required: true,
             type: 'email'
           }
@@ -40,10 +41,10 @@ class Register extends Component {
         validation: {
           state: {
             isValid: false,
-            isTouched: false            
+            isTouched: false,            
+            errorMessage: ''
           },
           rules: {
-            errorMessage: '',
             required: true,
             minLength: 6
           }
@@ -70,58 +71,6 @@ class Register extends Component {
     }
   }
 
-  checkValidity = (value, rules) => {
-    let validationResult = {
-      isValid: true,
-      errorMessage: ''
-    }
-
-    if (rules.sameAs) {
-      if (value !== this.state.form[rules.sameAs].value) {
-        validationResult.isValid = false
-        validationResult.errorMessage = 'passwords doesn\'t match'
-      }
-    }
-
-    if (rules.type) {
-      if (rules.type === 'email') {
-        const emailRE = /\S+@\S+\.\S+/
-        if (emailRE.test(value) === false) {
-          validationResult.isValid = false
-          validationResult.errorMessage = 'not correct email'
-        }
-      }
-    }
-    
-    if (rules.required) {
-      if (value === '') {
-        validationResult.isValid = false
-        validationResult.errorMessage = 'required'
-      }
-    }
-
-    if (rules.minLength) {
-      if (rules.minLength > value.length) {
-        validationResult.isValid = false
-        validationResult.errorMessage = 'too short'
-      }
-    }
-
-    return validationResult
-  }
-
-  formIsValidCheck = (form) => {
-    let formIsValid = true
-
-    for (let formInput in form) {
-      if (!form[formInput].validation.state.isValid && form.hasOwnProperty(formInput)) {
-        formIsValid = false
-      }
-    }
-
-    return formIsValid
-  }
-
   handleInputChange = (inputKey, e) => {
     const form = {...this.state.form}
     const input = {...form[inputKey]}
@@ -131,7 +80,7 @@ class Register extends Component {
     input.value = e.target.value.trim().toLowerCase()
     validationState.isTouched = true
 
-    const validationResult = this.checkValidity(input.value, validation.rules)
+    const validationResult = this.props.checkValidity(input.value, validation.rules, this.state.form.password.value)
     validationState.isValid = validationResult.isValid
     validationState.errorMessage = validationResult.errorMessage
 
@@ -139,7 +88,7 @@ class Register extends Component {
     input.validation = validation
     form[inputKey] = input
 
-    const formIsValid = this.formIsValidCheck(form)
+    const formIsValid = this.props.formIsValidCheck(form)
 
     this.setState({
       form, 
@@ -148,8 +97,7 @@ class Register extends Component {
     })
   }
 
-  handleRegisterClick = (e) => {
-    if (!this.state.formIsValid) return;
+  handleRegClick = (e) => {
     if (e.key && e.key !== 'Enter') return;
 
     this.props.onSpinnerStart()
@@ -191,7 +139,7 @@ class Register extends Component {
       <NoRootElement>
         {inputs}
         <span className={styles.RegError}>{this.state.formErrorMessage}</span>
-        <Button onClick={this.handleRegisterClick} style={{marginTop: '5px'}}>Create account</Button>
+        <Button onClick={this.handleRegClick} disabled={!this.state.formIsValid} style={{marginTop: '5px'}}>Create account</Button>
         <Button onClick={this.props.onToggleAuth} style={{marginTop: '15px'}}>Back</Button>
       </NoRootElement>
     )
@@ -205,4 +153,4 @@ const mapDispatchToProps = (dispatch) => {
   }
 }
 
-export default connect(null, mapDispatchToProps)(Register)
+export default connect(null, mapDispatchToProps)( validationMethods(Reg) )

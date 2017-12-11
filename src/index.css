@@ -8,8 +8,13 @@ body {
   min-height: 100%;
   box-sizing: border-box;
 
-  font-family: 'Indie Flower', cursive;
+  font-family: 'Spectral SC', serif;
   color: #D7CCC8;
   background-image: url('./assets/main_background.jpg');
   background-size: cover;
+}
+
+button,
+input {
+  font-family: 'Spectral SC', serif;
 }

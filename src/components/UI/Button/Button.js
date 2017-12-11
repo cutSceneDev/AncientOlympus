@@ -7,7 +7,7 @@ const button = props => {
   const buttonStyles = [styles.Button, props.disabled ? styles.Disabled : styles.Active].join(' ')
 
   let button = (
-    <button className={buttonStyles} onClick={props.onClick} style={props.style}>
+    <button className={buttonStyles} onClick={!props.disabled ? props.onClick : null} style={props.style}>
       {props.children}
     </button>
   )
