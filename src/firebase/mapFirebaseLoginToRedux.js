@@ -1,4 +1,4 @@
-import { loginUser, logoutUser} from '../store/actions/index'
+import { loginUser, logoutUser } from '../store/actions/index'
 import { connect } from 'react-redux'
 import { auth } from '../firebase/firebase'
 
@@ -10,7 +10,6 @@ const firebaseStoreActions = (props) => {
       props.onlogoutUser()
     )
   })
-
   return null
 }
 

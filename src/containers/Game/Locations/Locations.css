@@ -1,7 +1,7 @@
 .Locations {
-  width: 100%;
+  flex-basis: 50%;
   padding: 15px;
-  margin: 30px;
+  margin-top: 30px;
   text-align: center;
   background: radial-gradient(#616161, #212121);
   border: 4px inset #4E342E;

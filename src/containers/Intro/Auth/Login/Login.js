@@ -2,9 +2,7 @@ import React, { Component } from 'react'
 import styles from './Login.css'
 
 import { connect } from 'react-redux'
-import { loginUser, spinnerStart, spinnerStop } from '../../../../store/actions/index'
-
-import { auth } from '../../../../firebase/firebase'
+import { loginUserAsync } from '../../../../store/actions/index'
 
 import validationMethods from '../../../../hoc/validationMethods'
 import NoRootElement from '../../../../hoc/NoRootElement'
@@ -14,7 +12,6 @@ import Button from '../../../../components/UI/Button/Button'
 class Login extends Component {
   state = {
     formIsValid: false,
-    formErrorMessage: '',
     form: {
       email: {
         tagType: 'input',
@@ -72,22 +69,15 @@ class Login extends Component {
     const formIsValid = this.props.formIsValidCheck(form)
 
     this.setState({
-      form, 
-      formIsValid, 
+      form,
+      formIsValid,
       formErrorMessage: ''
     })
   }
 
   handleLoginClick = (e) => {
     if (e.key && e.key !== 'Enter') return;
-
-    this.props.onSpinnerStart()
-    auth.signInWithEmailAndPassword(this.state.form.email.value, this.state.form.password.value)
-      .then( () => this.props.onSpinnerStop() )
-      .catch(error => {
-        this.setState({formErrorMessage: error.message})
-        this.props.onSpinnerStop()
-    });
+    this.props.onLoginUserAsync(this.state.form.email.value, this.state.form.password.value)
   }
 
   render() {
@@ -119,7 +109,7 @@ class Login extends Component {
     return (
       <NoRootElement>
         {inputs}
-        <span className={styles.LoginError}>{this.state.formErrorMessage}</span>
+        <span className={styles.LoginError}>{this.props.loginErrorMessage}</span>
         <Button onClick={this.handleLoginClick} disabled={!this.state.formIsValid} style={{marginTop: '5px'}}>Login</Button>
         <Button onClick={this.props.onToggleAuth} style={{marginTop: '15px'}}>I haven't account</Button>
       </NoRootElement>
@@ -127,12 +117,16 @@ class Login extends Component {
   }
 }
 
+const mapStateToProps = (state) => {
+  return {
+    loginErrorMessage: state.login.loginErrorMessage
+  }
+}
+
 const mapDispatchToProps = (dispatch) => {
   return {
-    onloginUser: email => dispatch( loginUser(email) ),
-    onSpinnerStart: () => dispatch( spinnerStart() ),
-    onSpinnerStop: () => dispatch( spinnerStop() )
+    onLoginUserAsync: (email, password) => dispatch( loginUserAsync(email, password) )
   }
 }
  
-export default connect(null, mapDispatchToProps)( validationMethods(Login) )
+export default connect(mapStateToProps, mapDispatchToProps)( validationMethods(Login) )

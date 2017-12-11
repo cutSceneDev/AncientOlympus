@@ -1,9 +1,8 @@
 import React, { Component } from 'react'
 import styles from './Reg.css'
 
-import { auth } from '../../../../firebase/firebase'
 import { connect } from 'react-redux'
-import { spinnerStart, spinnerStop } from '../../../../store/actions/index'
+import { regUserAsync } from '../../../../store/actions/index'
 
 import validationMethods from '../../../../hoc/validationMethods'
 import NoRootElement from '../../../../hoc/NoRootElement'
@@ -99,14 +98,7 @@ class Reg extends Component {
 
   handleRegClick = (e) => {
     if (e.key && e.key !== 'Enter') return;
-
-    this.props.onSpinnerStart()
-    auth.createUserWithEmailAndPassword(this.state.form.email.value, this.state.form.password.value)
-      .then( () => this.props.onSpinnerStop() )
-      .catch(error => {
-        this.setState({formErrorMessage: error.message})
-        this.props.onSpinnerStop()
-    });
+    this.props.onLoginUserAsync(this.state.form.email.value, this.state.form.password.value)
   }
 
   render() {
@@ -138,7 +130,7 @@ class Reg extends Component {
     return (
       <NoRootElement>
         {inputs}
-        <span className={styles.RegError}>{this.state.formErrorMessage}</span>
+        <span className={styles.RegError}>{this.props.regErrorMessage}</span>
         <Button onClick={this.handleRegClick} disabled={!this.state.formIsValid} style={{marginTop: '5px'}}>Create account</Button>
         <Button onClick={this.props.onToggleAuth} style={{marginTop: '15px'}}>Back</Button>
       </NoRootElement>
@@ -146,11 +138,16 @@ class Reg extends Component {
   }
 }
 
-const mapDispatchToProps = (dispatch) => {
+const mapStateToProps = (state) => {
   return {
-    onSpinnerStart: () => dispatch( spinnerStart() ),
-    onSpinnerStop: () => dispatch( spinnerStop() )
+    regErrorMessage: state.login.regErrorMessage
   }
 }
 
-export default connect(null, mapDispatchToProps)( validationMethods(Reg) )
+const mapDispatchToProps = (dispatch) => {
+  return {
+    onLoginUserAsync: (email, password) => dispatch( regUserAsync(email, password) )
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)( validationMethods(Reg) )

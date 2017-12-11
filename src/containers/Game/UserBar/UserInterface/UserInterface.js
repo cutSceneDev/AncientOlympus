@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
-// import styles from './Interface.css'
+// import styles from './UserInterface.css'
 
-class Interface extends Component {
+class UserInterface extends Component {
   state = {
     
   }
@@ -17,4 +17,4 @@ class Interface extends Component {
   }
 }
 
-export default Interface
+export default UserInterface

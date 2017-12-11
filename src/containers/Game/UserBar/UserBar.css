@@ -1,10 +1,19 @@
 .UserBar {
-  width: 100%;
+  flex-basis: 50%;
+  margin: 30px 30px 30px 0;
+} 
+
+.Content {
   padding: 15px;
-  margin: 30px;
   text-align: center;
   background: radial-gradient(#616161, #212121);
   border: 4px inset #4E342E;
   border-radius: 15px;
   box-shadow: 2px 2px 4px black;
-} 
+}
+
+.Nav {
+  margin: 0 15px;
+  display: flex;
+  justify-content: space-between;
+}

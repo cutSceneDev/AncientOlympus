@@ -5,5 +5,8 @@ export {
 
 export {
   loginUser,
-  logoutUser
+  logoutUser,
+  regUserAsync,
+  loginUserAsync,
+  logoutUserAsync
 } from './login'

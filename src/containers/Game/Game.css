@@ -1,7 +1,5 @@
 .Game {
   margin: 0 auto;
   display: flex;
-  flex-flow: row nowrap;
-  justify-content: space-between;
-  width: 1030px;
+  width: 1000px;
 }
