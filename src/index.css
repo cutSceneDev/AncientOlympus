@@ -9,7 +9,7 @@ body {
   min-height: 100%;
   box-sizing: border-box;
 
-  font-family: 'Spectral SC', serif;
+  font-family: 'Arial', sans-serif;
   color: #D7CCC8;
   background-image: url('./assets/main_background.jpg');
   background-size: cover;
@@ -17,5 +17,5 @@ body {
 
 button,
 input {
-  font-family: 'Spectral SC', serif;
+  font-family: 'Arial', sans-serif;
 }
