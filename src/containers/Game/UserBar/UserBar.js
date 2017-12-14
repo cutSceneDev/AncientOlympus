@@ -19,11 +19,11 @@ class UserBar extends Component {
     return (
       <div className={styles.UserBar}>
         <div className={styles.Nav}>
-          <NavTab>
+          <NavTab active={true}>
             {this.props.userEmail || 'Your email adress'}
           </NavTab>
           <NavTab onClick={this.props.onLogoutUser}>
-            <span>Logout</span>
+            <span>logout</span>
           </NavTab>         
         </div>
         <div className={styles.Content}>

@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto+Slab');
+
 html {
   min-height: 100%;
   user-select: none;
@@ -9,7 +11,7 @@ body {
   min-height: 100%;
   box-sizing: border-box;
 
-  font-family: 'Arial', sans-serif;
+  font-family: 'Roboto Slab', serif;
   color: #D7CCC8;
   background-image: url('./assets/main_background.jpg');
   background-size: cover;
@@ -17,5 +19,5 @@ body {
 
 button,
 input {
-  font-family: 'Arial', sans-serif;
+  font-family: 'Roboto Slab', serif;
 }

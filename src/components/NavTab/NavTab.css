@@ -1,10 +1,31 @@
 .NavTab {
-  padding: 1px 25px;
+  padding: 1px 15px;
   text-align: center;
-  background: radial-gradient(#616161, #212121);
   border: 4px outset #4E342E;
   border-bottom: 0;
   border-top-left-radius: 15px;
   border-top-right-radius: 15px;
+  margin-right: 5px;
+}
+
+.NavTab:empty {
+  padding-bottom: 22px;
+  padding-right: 50px;
+}
+
+.Tab {
+  background-image: radial-gradient(#616161, #212121);
   cursor: pointer;
+}
+
+.Tab:hover {
+  background-image: radial-gradient(#757575, #212121);
+}
+
+.Tab:active {
+  background-image: radial-gradient(#9E9E9E, #212121);
+}
+
+.Active {
+  background-image: radial-gradient(#9E9E9E, #212121);
 }
