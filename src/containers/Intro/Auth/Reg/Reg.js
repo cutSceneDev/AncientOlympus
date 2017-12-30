@@ -102,6 +102,7 @@ class Reg extends Component {
   }
 
   render() {
+    const { regErrorMessage, onToggleAuth } = this.props
     const inputsArray = [];
 
     Object.keys(this.state.form).forEach(input => {
@@ -130,9 +131,9 @@ class Reg extends Component {
     return (
       <NoRootElement>
         {inputs}
-        <span className={styles.RegError}>{this.props.regErrorMessage}</span>
+        <span className={styles.RegError}>{regErrorMessage}</span>
         <Button onClick={this.handleRegClick} disabled={!this.state.formIsValid} style={{marginTop: '5px'}}>Create account</Button>
-        <Button onClick={this.props.onToggleAuth} style={{marginTop: '15px'}}>Back</Button>
+        <Button onClick={onToggleAuth} style={{marginTop: '15px'}}>Back</Button>
       </NoRootElement>
     )
   }

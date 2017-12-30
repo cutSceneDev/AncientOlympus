@@ -14,15 +14,15 @@ class UserBar extends Component {
   }
   
   render() {
-    
+    const { userEmail, onLogoutUser } = this.props
     
     return (
       <div className={styles.UserBar}>
         <div className={styles.Nav}>
           <NavTab active={true}>
-            {this.props.userEmail || 'Your email adress'}
+            {userEmail || 'Your email adress'}
           </NavTab>
-          <NavTab onClick={this.props.onLogoutUser}>
+          <NavTab onClick={onLogoutUser}>
             <span>logout</span>
           </NavTab>         
         </div>

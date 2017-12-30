@@ -3,18 +3,19 @@ import styles from './Button.css'
 
 import { Link } from 'react-router-dom'
 
-const button = props => {
-  const buttonStyles = [styles.Button, props.disabled ? styles.Disabled : styles.Active].join(' ')
+const Button = (props) => {
+  const { disabled, onClick, style, link } = props
+  const buttonStyles = [styles.Button, disabled ? styles.Disabled : styles.Active].join(' ')
 
   let button = (
-    <button className={buttonStyles} onClick={!props.disabled ? props.onClick : null} style={props.style}>
+    <button className={buttonStyles} onClick={!disabled ? onClick : null} style={style}>
       {props.children}
     </button>
   )
 
-  if (props.link) {
+  if (link) {
     button = (
-      <Link to={props.link}>
+      <Link to={link}>
         {button}
       </Link>
     )
@@ -23,4 +24,4 @@ const button = props => {
   return button
 }
 
-export default button
+export default Button

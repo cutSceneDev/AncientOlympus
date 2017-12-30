@@ -81,6 +81,7 @@ class Login extends Component {
   }
 
   render() {
+    const { loginErrorMessage, onToggleAuth } = this.props
     const inputsArray = []
 
     Object.keys(this.state.form).forEach(input => {
@@ -109,9 +110,9 @@ class Login extends Component {
     return (
       <NoRootElement>
         {inputs}
-        <span className={styles.LoginError}>{this.props.loginErrorMessage}</span>
+        <span className={styles.LoginError}>{loginErrorMessage}</span>
         <Button onClick={this.handleLoginClick} disabled={!this.state.formIsValid} style={{marginTop: '5px'}}>Login</Button>
-        <Button onClick={this.props.onToggleAuth} style={{marginTop: '15px'}}>I haven't account</Button>
+        <Button onClick={onToggleAuth} style={{marginTop: '15px'}}>I haven't account</Button>
       </NoRootElement>
     )
   }

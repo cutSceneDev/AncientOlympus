@@ -19,11 +19,12 @@ class ImageSlider extends Component {
   }
 
   render() {
-    const arrayOfBooleanSliderStatus = this.props.images.map((_, index) => {
+    const { images, width, height } = this.props
+    const arrayOfBooleanSliderStatus = images.map((_, index) => {
       return this.state.activeSlide === index
     })
 
-    const images = this.props.images.map((src, index) => (
+    const imagesList = images.map((src, index) => (
       <Transition
         in={arrayOfBooleanSliderStatus[index]}
         timeout={0}
@@ -45,8 +46,8 @@ class ImageSlider extends Component {
     ))
 
     return (
-      <div className={styles.sliderWrapper} style={{width: this.props.width, height: this.props.height}}>
-        {images}
+      <div className={styles.sliderWrapper} style={{width, height}}>
+        {imagesList}
       </div>
     )
   }

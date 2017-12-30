@@ -18,10 +18,11 @@ class Auth extends Component {
   )
 
   render() {
+    const { authIsActive, onCloseAuth } = this.props
     return (
       <Modal 
-        isActive={this.props.authIsActive} 
-        onCloseClick={() => {this.props.onCloseAuth(); this.handleActiveLogin()}}
+        isActive={authIsActive} 
+        onCloseClick={() => {onCloseAuth(); this.handleActiveLogin()}}
       >
         {this.state.loginIsActive ? 
           <Login onToggleAuth={this.handleActiveReg} /> :

@@ -1,19 +1,20 @@
 import React from 'react'
 import styles from './Input.css'
 
-const input = (props) => {
+const Input = (props) => {
+  const { tagType, placeholder, change, value, type, keyPress, label, notValid, errorMessage } = props
   let inputElement = null;
 
-  switch (props.tagType) {
+  switch (tagType) {
     case 'input':
       inputElement = (
         <input
           className={styles.Input}
-          placeholder={props.placeholder}
-          onChange={props.change}
-          value={props.value}
-          type={props.type}
-          onKeyPress={props.keyPress}
+          placeholder={placeholder}
+          onChange={change}
+          value={value}
+          type={type}
+          onKeyPress={keyPress}
         />
       )
       break;
@@ -25,14 +26,14 @@ const input = (props) => {
   return (
     <label className={styles.Label}>
       <span className={styles.Text}>
-        {props.label}
+        {label}
       </span>
       {inputElement}
       <span className={styles.Warning}>
-        { props.notValid ? props.errorMessage : '' }
+        { notValid ? errorMessage : '' }
       </span>
     </label>
   )
 };
 
-export default input
+export default Input

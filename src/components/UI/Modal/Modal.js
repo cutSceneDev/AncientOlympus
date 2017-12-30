@@ -4,11 +4,13 @@ import styles from './Modal.css'
 import Transition from 'react-transition-group/Transition'
 import BackDrop from '../BackDrop/BackDrop'
 
-const modal = props => {
+const Modal = (props) => {
+  const { isActive, onCloseClick, children } = props
+
   return (
     <div className={styles.ModalWrapper}>
       <Transition
-        in={props.isActive}
+        in={isActive}
         timeout={0}
         mountOnEnter
         unmountOnExit
@@ -18,13 +20,13 @@ const modal = props => {
             opacity: state === 'entered' ? 1 : 0,
             transition: 'opacity 150ms ease-out'
           }}>
-            <BackDrop onCloseClick={props.onCloseClick} />
+            <BackDrop onCloseClick={onCloseClick} />
           </div>
         )}
       </Transition>
 
       <Transition
-        in={props.isActive}
+        in={isActive}
         timeout={200}
         mountOnEnter
         unmountOnExit
@@ -37,7 +39,7 @@ const modal = props => {
               transition: 'all 200ms ease-out'
             }}
           >
-            {props.children}
+            {children}
           </div>          
         )}
       </Transition>
@@ -45,4 +47,4 @@ const modal = props => {
   )
 };
 
-export default modal
+export default Modal

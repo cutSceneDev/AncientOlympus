@@ -4,11 +4,13 @@ import { connect } from 'react-redux'
 
 import BackDrop from '../UI/BackDrop/BackDrop'
 
-const spinner = props => {
+const spinner = (props) => {
+  const { spinnerIsActive } = props
+  
   return props.spinnerIsActive ? (
     <div>
       <BackDrop
-        isActive={props.spinnerIsActive}
+        isActive={spinnerIsActive}
         onClick={null}
         zIndex={300}
       />

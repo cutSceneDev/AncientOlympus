@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import { Switch, Route, Redirect, withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
-
 import { loginUserAsync, logoutUserAsync } from './store/actions/index'
 import Game from './containers/Game/Game'
 import Intro from './containers/Intro/Intro'
@@ -10,19 +9,20 @@ import MapFirebaseLoginToRedux from './firebase/mapFirebaseLoginToRedux'
 
 class App extends Component {
   render() {
+    const { onLoginUserAsync, onLogoutUserAsync, userIsLogged } = this.props
     return (
       <div>
         
         {/*  DEV */}
         <div>
-          <button onClick={this.props.onLoginUserAsync}>login</button>
-          <button onClick={this.props.onLogoutUserAsync}>logout</button>
+          <button onClick={onLoginUserAsync}>login</button>
+          <button onClick={onLogoutUserAsync}>logout</button>
         </div>    
         {/*  DEV */}
 
         <MapFirebaseLoginToRedux />
         <Spinner />
-        {this.props.userIsLogged ? (
+        {userIsLogged ? (
           <Switch>
             <Route path={'/game'} component={Game} />
             <Route path={'*'} render={() => <Redirect to={'/game'} />} />
